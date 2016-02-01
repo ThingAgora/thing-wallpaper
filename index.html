@@ -1,0 +1,112 @@
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<H1 style='position:fixed;top:4%;left:4%;z-index:3'>ThingAgora....</h1>
+<H1 style='bottom:4%;right:4%;position:fixed;z-index:3'>....Coming soon.</h1>
+
+<img id=bmap  style="position:fixed;;z-index:2;height:90%; align-content:center;" src=transmap.svg></img>
+<div id=izone style="overflow:hidden;bottom:0px;position:fixed;z-index:1"> </div>
+
+<style>
+
+body {font-family: 'Roboto', sans-serif;background-color:black;color:white}
+
+
+.blip0 {
+animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+  animation-iteration-count: 3;
+  animation-direction: alternate;
+  animation-name: rbfade;
+}
+
+.blip1 {
+animation-timing-function: ease-in;
+  animation-duration: 0.2s;
+  animation-iteration-count: 13;
+  animation-direction: alternate;
+  animation-name: bwfade;
+}
+
+
+.blip2 {
+animation-timing-function: ease-in-out;
+  animation-duration: 0.4s;
+  animation-iteration-count: 5;
+  animation-direction: alternate;
+  animation-name: reverse;
+}
+
+
+
+@keyframes rbfade { from {color:#000000;} to {color:#FFFFFF } }
+@keyframes bwfade { from {color:#FF0000;} to {color:#0000FF } }
+@keyframes reverse { from {color:#FFFF00;background-color:#000000} to {color:#FF8000;background-color:#FFFFFF } }
+
+</style>
+
+<script>
+icons=['e021','e029','e02a','e02c','e03e','e04b','e04d','e04e','e050','e0af','e0b0','e0b1','e0be','e0bf','e0cd','e0cf','e0d0','e0d1','e0d2','e0d9','e0da','e0dc','e0dd','e0e0','e0e1','e16b','e195','e1b1','e1b2','e1b3','e1b4','e1b8','e1bb','e1c2','e1db','e1e0','e307','e30a','e30b','e30c','e30d','e30e','e310','e311','e312','e31f','e320','e321','e322','e323','e324','e325','e328','e329','e32a','e32b','e32d','e32f','e330','e331','e332','e333','e334','e335','e337','e338','e3ae','e3b0','e3b3','e3e2','e3f3','e3f8','e3fc','e404','e40b','e40d','e41c','e425','e42e','e438','e43a','e52f','e530','e531','e532','e533','e534','e536','e539','e53a','e53e','e540','e541','e542','e545','e546','e54a','e54b','e54c','e54d','e54f','e550','e552','e555','e558','e559','e562','e563','e565','e566','e60e','e613','e623','e62b','e62d','e62e','e63c','e63d','e63e','e640','e7e9','e7ee','e7f1','e7f4','e7f5','e7f7','e7f9','e801','e80e','e84f','e854','e855','e859','e868','e869','e872','e87a','e88a','e88b','e88c','e892','e893','e897','e898','e899','e89b','e8a1','e8ad','e8b8','e8b9','e8c2','e8c3','e8c7','e8cb','e8cc','e8da','e8db','e8dc','e8df','e8f4','e8f6','e8f8','e8f9','e903','e904','e905','e90d','e90f','e912','e91b','e91d','e921','eb3c','eb3e','eb3f','eb40','eb42','eb43','eb44','eb45','eb46','eb47','eb48','eb49','eb4b','eb4c']
+
+var iconsize=64;
+var ew = window
+var ed = document
+var ee = ed.documentElement
+var eb  = ee.getElementsByTagName('body')[0]
+var bmap=ed.getElementById('bmap')
+var izone=ed.getElementById('izone')
+var tiles=[]
+
+function resizeIzone() {
+	var sx = ew.innerWidth || ee.clientWidth || eb.clientWidth
+	var sy = ew.innerHeight|| ee.clientHeight|| eb.clientHeight
+	var box=bmap.getBoundingClientRect()
+	
+	tiles=[];izone.innerHTML="";
+	bmap.style.left=(sx-box.width)/2
+	bmap.style.top=(sy-box.height)/2
+	izone.style.top=bmap.style.top
+	izone.style.left=(sx-box.width)/2+2
+	izone.style.width=box.width;izone.style.height=box.height
+	var nbi=(Math.floor(box.width/iconsize))*(Math.floor(box.height/iconsize))
+	for (i=0;i<nbi;i++) {tiles[i]=izone.appendChild(icon()) }
+
+	}
+
+function icontent(i) {
+	i.innerHTML="&#x"+icons[Math.floor(Math.random()*icons.length)]+";"
+//~  	i.style["background-color"]=("000000"+Math.round(0xffffff * Math.random()).toString(16)).substr(-6)
+ 	if (Math.random()>0.5) 	{i.style["background-color"]="#FFFFFF";i.style["color"]="#000000"} 
+	else 			{i.style["background-color"]="#000000";i.style["color"]="#FFFFFF"}
+//~  	i.style["color"]=("000000"+Math.round(0xffffff * Math.random()).toString(16)).substr(-6)
+	}
+
+
+function icon() {
+	var i=document.createElement('I');
+	i.className="material-icons";
+	i.style['font-size']=iconsize+'px'
+	icontent(i)
+	return i
+	}
+
+
+function blip() {
+	var tgt=tiles[Math.floor(Math.random()*tiles.length)]
+	tgt.className="material-icons";
+	var loc=tgt.getBoundingClientRect()
+	icontent(tgt)
+	blipclass="blip"+Math.floor(Math.random()*3)
+	if (Math.random()>0.50) {tgt.classList.add(blipclass)}
+}
+
+window.onload=function () {
+	resizeIzone()
+	window.setInterval(blip,10);
+	}
+
+window.onresize = resizeIzone
+
+
+</script>
+
