@@ -112,12 +112,12 @@ function blip() {
 	var loc=tgt.getBoundingClientRect()
 	icontent(tgt)
 	blipclass="blip"+Math.floor(Math.random()*3)
-	if (Math.random()>0.50) {tgt.classList.add(blipclass)}
+	if (Math.random()>0.80) {tgt.classList.add(blipclass)}
 }
 
 window.onload=function () {
 	resizeIzone()
-	window.setInterval(blip,10);
+	window.setInterval(blip,100);
 	}
 
 window.onresize = resizeIzone
